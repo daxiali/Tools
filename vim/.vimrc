@@ -60,7 +60,7 @@ Plugin 'The-NERD-tree'
 Plugin 'bling/vim-airline'
 Plugin 'grep.vim'
 Plugin 'SuperTab'
-Plugin 'echofunc.vim' 
+Plugin 'echofunc.vim'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -310,7 +310,7 @@ let g:miniBufExplMapCTabSwitchBufs = 1
 let g:miniBufExplModSelTarget = 1
 
 " winManager一般设置
-let g:AutoOpenWinManager = 1 "开启Vim时自动打开 
+let g:AutoOpenWinManager = 0 "开启Vim时自动打开为1
 let g:winManagerWindowLayout = 'NERDTree|Tagbar'
 nmap wm :WMToggle<CR> 
 nmap <silent> <F7> :WMToggle<cr> 
@@ -349,13 +349,18 @@ let g:tagbar_width = 30
 let g:tagbar_right = 1
 
 "自动退出Winmanager
-autocmd bufenter * if (winnr("$") == 2 && exists("b:Tagbar") && exists("b:NERDTreeType") && b:NERDTreeType == "primary")  | qa | endif
+"autocmd bufenter * if (winnr("$") == 2 && exists("b:Tagbar") && exists("b:NERDTreeType") && b:NERDTreeType == "primary")  | qa | endif
+"自动进入vim行为
+autocmd VimEnter * NERDTreeToggle | q! | 2wincmd w
+
 
 nnoremap <silent> <F10> :Grep<CR>
 
 let g:SuperTabRetainCompletionType=2
 let g:SuperTabDefaultCompletionType="	"
 let g:Powline_symbols='fancy'
+
+"let g:EchoFuncShowOnStatus=1
 
 " 主题设置
 let g:solarized_termcolors=256
