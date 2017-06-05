@@ -378,7 +378,8 @@ let g:Powline_symbols='fancy'
 let g:solarized_termcolors=256
 set t_Co=256
 set background=dark
-colorscheme solarized
+"colorscheme solarized
+colorscheme tatami
 
 " cscope快捷键设置
 nmap <C-\>a :cs add cscope.out<cr>
