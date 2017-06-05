@@ -375,9 +375,9 @@ let g:Powline_symbols='fancy'
 "let g:EchoFuncShowOnStatus=1
 
 " 主题设置
-let g:solarized_termcolors=256
 set t_Co=256
-set background=dark
+set background=light
+"let g:solarized_termcolors=256
 "colorscheme solarized
 colorscheme tatami
 
@@ -413,6 +413,7 @@ let g:pymode_rope_use_function_bind = '<leader>ru'
 let g:pymode_rope_move_bind = '<leader>rv'
 let g:pymode_rope_change_signature_bind = '<leader>rs'
 let g:pymode_rope_autoimport = 1
+let g:pymode_options_max_line_length = 119
 
 
 
