@@ -52,7 +52,7 @@ Plugin 'othree/javascript-libraries-syntax.vim' "js各类框架 库的高亮支�
 Plugin 'maksimr/vim-jsbeautify' "格式化js css等
 Plugin 'marijnh/tern_for_vim' "牛逼的基于语法分析的补全
 Plugin 'mbriggs/mark.vim' "标记高亮
-Plugin 'gorodinskiy/vim-coloresque' "颜色符号显示对应颜色
+"Plugin 'gorodinskiy/vim-coloresque' "颜色符号显示对应颜色
 "Plugin 'scrooloose/nerdtree' "文件树浏览
 Plugin 'Xuyuanp/nerdtree-git-plugin' "git支持
 Plugin 'majutsushi/tagbar' "ctags标签提取显示
@@ -61,6 +61,8 @@ Plugin 'bling/vim-airline'
 Plugin 'grep.vim'
 Plugin 'SuperTab'
 Plugin 'echofunc.vim'
+Plugin 'klen/python-mode'
+Plugin 'pathogen.vim'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -77,6 +79,14 @@ filetype plugin indent on    " required
 " see :h vundle for more details or wiki for FAQ
 " Put your non-Plugin stuff after this line
 
+" Pathogen load
+filetype off
+
+call pathogen#infect()
+call pathogen#helptags()
+
+filetype plugin indent on
+syntax on
 """"""""""""""""""""""""""""""""""
 " 显示相关  
 """"""""""""""""""""""""""""""""""
@@ -122,6 +132,8 @@ set fileencoding=utf-8
 """"""""""""""""""""""""""""""
 "键盘命令
 """"""""""""""""""""""""""""""
+" mapleader default '\'
+"let mapleader = "," 
 nmap <leader>w :w!<cr>
 nmap <leader>f :find<cr>
 " 映射全选+复制 ctrl+a
@@ -351,7 +363,7 @@ let g:tagbar_right = 1
 "自动退出Winmanager
 "autocmd bufenter * if (winnr("$") == 2 && exists("b:Tagbar") && exists("b:NERDTreeType") && b:NERDTreeType == "primary")  | qa | endif
 "自动进入vim行为
-autocmd VimEnter * NERDTreeToggle | q! | 2wincmd w
+autocmd VimEnter * if (winnr("$") >= 2) | NERDTreeToggle | q! | 2wincmd w | endif
 
 
 nnoremap <silent> <F10> :Grep<CR>
@@ -367,3 +379,39 @@ let g:solarized_termcolors=256
 set t_Co=256
 set background=dark
 colorscheme solarized
+
+" cscope快捷键设置
+nmap <C-\>a :cs add cscope.out<cr>
+nmap <C-\>r :cs reset<cr>
+nmap <C-\>s :cs find s <C-R>=expand("<cword>")<cr><cr>
+nmap <C-\>g :cs find g <C-R>=expand("<cword>")<cr><cr>
+nmap <C-\>c :cs find c <C-R>=expand("<cword>")<cr><cr>
+nmap <C-\>t :cs find t <C-R>=expand("<cword>")<cr><cr>
+nmap <C-\>e :cs find e <C-R>=expand("<cword>")<cr><cr>
+nmap <C-\>f :cs find f <C-R>=expand("<cfile>")<cr><cr>
+nmap <C-\>i :cs find i <C-R>=expand("<cfile>")<cr><cr>
+nmap <C-\>d :cs find d <C-R>=expand("<cword>")<cr><cr>
+
+""""""""""""""""""""""""""""
+" python-mode 配置
+""""""""""""""""""""""""""""
+let g:pymode_folding = 0
+let g:pymode_rope_goto_definition_bind = '<C-]>'
+let g:pymode_run_bind = '<leader><C-r>'
+let g:pymode_doc_bind = '<leader><C-k>'
+let g:pymode_breakpoint_bind = '<leader><C-b>'
+let g:pymode_rope_show_doc_bind = '<leader><C-d>'
+let g:pymode_rope_rename_bind = '<leader>rr'
+let g:pymode_rope_rename_module_bind = '<leader>r1r'
+let g:pymode_rope_organize_imports_bind = '<leader>ro'
+let g:pymode_rope_autoimport_bind = '<leader>ra'
+let g:pymode_rope_module_to_package_bind = '<leader>r1p'
+let g:pymode_rope_extract_method_bind = '<leader>rm'
+let g:pymode_rope_extract_variable_bind = '<leader>rl'
+let g:pymode_rope_use_function_bind = '<leader>ru'
+let g:pymode_rope_move_bind = '<leader>rv'
+let g:pymode_rope_change_signature_bind = '<leader>rs'
+let g:pymode_rope_autoimport = 1
+
+
+
