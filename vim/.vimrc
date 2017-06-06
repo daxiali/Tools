@@ -376,10 +376,11 @@ let g:Powline_symbols='fancy'
 
 " 主题设置
 set t_Co=256
-set background=light
-"let g:solarized_termcolors=256
-"colorscheme solarized
-colorscheme tatami
+set background=dark
+let g:solarized_termcolors=256
+let g:solarized_contrast="high"
+colorscheme solarized
+"colorscheme tatami
 
 " cscope快捷键设置
 nmap <C-\>a :cs add cscope.out<cr>
