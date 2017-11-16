@@ -269,6 +269,7 @@ set iskeyword+=_,$,@,%,#,-
 set linespace=0
 " 增强模式中的命令行自动完成操作
 set wildmenu
+set wildmode=list:longest
 " 使回格键（backspace）正常处理indent, eol, start等
 set backspace=2
 " 允许backspace和光标键跨越行边界
