@@ -14,22 +14,23 @@ Plugin 'airblade/vim-gitgutter'
 Plugin 'bronson/vim-trailing-whitespace'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
-Plugin 'powerline/fonts'
 Plugin 'python-mode/python-mode'
 call vundle#end()
 " required
 filetype on
 filetype plugin on
 filetype indent on
-"编码设置
+" 编码设置
 set enc=utf-8
 set fencs=utf-8,ucs-bom,shift-jis,gb18030,gbk,gb2312,cp936
 set termencoding=utf-8
 set encoding=utf-8
 set fileencodings=ucs-bom,utf-8,cp936
 set fileencoding=utf-8
-"语言设置
+" 语言设置
 set langmenu=zh_CN.UTF-8
+" 设置为双字宽显示，否则无法完整显示如:☆
+set ambiwidth=double
 " 不要图形按钮
 set go=
 " 隐藏工具栏
@@ -172,27 +173,22 @@ let g:ctrlp_working_path_mode = 0
 let g:airline_powerline_fonts = 1
 if !exists('g:airline_symbols')
     let g:airline_symbols = {}
-  endif
-
+endif
 " unicode symbols
-let g:airline_left_sep = '»'
-let g:airline_left_sep = '▶'
-let g:airline_right_sep = '«'
-let g:airline_right_sep = '◀'
-let g:airline_symbols.crypt = '🔒'
-let g:airline_symbols.linenr = '☰'
-let g:airline_symbols.linenr = '␊'
-let g:airline_symbols.linenr = '␤'
-let g:airline_symbols.linenr = '¶'
+let g:airline_left_alt_sep = ''
+let g:airline_left_sep = ''
+let g:airline_right_alt_sep = ''
+let g:airline_right_sep = ''
+let g:airline_symbols.crypt = ''
+let g:airline_symbols.readonly = ''
+let g:airline_symbols.linenr = ''
 let g:airline_symbols.maxlinenr = ''
-let g:airline_symbols.maxlinenr = '㏑'
-let g:airline_symbols.branch = '⎇'
-let g:airline_symbols.paste = 'ρ'
-let g:airline_symbols.paste = 'Þ'
-let g:airline_symbols.paste = '∥'
-let g:airline_symbols.spell = 'Ꞩ'
-let g:airline_symbols.notexists = '∄'
-let g:airline_symbols.whitespace = 'Ξ'
+let g:airline_symbols.branch = ''
+let g:airline_symbols.paste = ''
+let g:airline_symbols.spell = ''
+let g:airline_symbols.notexists = ''
+let g:airline_symbols.whitespace = ''
+
 
 " Tab键切换buffer
 nmap <tab> :bn<CR>
@@ -210,8 +206,11 @@ let g:airline#extensions#tabline#left_alt_sep='|'
 let g:airline#extensions#tabline#buffer_nr_show=1
 " 设置airline风格
 let g:airline_theme='solarized'
-" 设置airline状态栏Z段，行号:列号 占总行百分比 光标字符十六进制 总行数
-let g:airline_section_z = 'Hex:%B Col:%v Ln:%l/%L %3p%%'
+" 设置airline状态栏Z段
+let g:airline_section_z='Hex:%B Col:%v Ln:%l/%L %3p%%'
+if winwidth(0) <= 80
+    let g:airline_section_z='Hex:%B Col:%v'
+endif
 
 map  / <Plug>(easymotion-sn)
 omap / <Plug>(easymotion-tn)
