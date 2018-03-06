@@ -112,5 +112,5 @@ alias adb='adb.exe'
 alias pip3='python3 -m pip'
 alias pip3.5='python3.5 -m pip'
 
-export TERM="xterm-256color"
+# export TERM="screen-256color"
 alias tmux="tmux -2"

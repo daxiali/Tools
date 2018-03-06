@@ -1,4 +1,5 @@
 set nocompatible
+" required
 filetype off
 " git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 set rtp+=~/.vim/bundle/Vundle.vim
@@ -8,59 +9,58 @@ Plugin 'majutsushi/tagbar'
 Plugin 'easymotion/vim-easymotion'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'altercation/vim-colors-solarized'
-Plugin 'scrooloose/nerdtree'
-Plugin 'jistr/vim-nerdtree-tabs'
 Plugin 'kien/ctrlp.vim'
 Plugin 'airblade/vim-gitgutter'
-Plugin 'christoomey/vim-tmux-navigator'
-Plugin 'winmanager'
-Plugin 'genoma/vim-less'
 Plugin 'bronson/vim-trailing-whitespace'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
+Plugin 'powerline/fonts'
 Plugin 'python-mode/python-mode'
 call vundle#end()
-filetype on                  " required
-filetype plugin indent on
-set go=             " 不要图形按钮
-syntax on           " 语法高亮
-set showcmd         " 输入的命令显示出来，看的清楚些
-set novisualbell    " 不要闪烁(不明白)
-set laststatus=2    " 启动显示状态行(1),总是显示状态行(2)
-" 显示中文帮助
-if version >= 603
-	set helplang=cn
-endif
-
+" required
+filetype on
+filetype plugin on
+filetype indent on
+"编码设置
+set enc=utf-8
 set fencs=utf-8,ucs-bom,shift-jis,gb18030,gbk,gb2312,cp936
 set termencoding=utf-8
 set encoding=utf-8
 set fileencodings=ucs-bom,utf-8,cp936
 set fileencoding=utf-8
-
+"语言设置
+set langmenu=zh_CN.UTF-8
+" 不要图形按钮
+set go=
+" 隐藏工具栏
+set guioptions-=T
+" 隐藏菜单栏
+set guioptions-=m
+" 语法高亮
+syntax on
+" 输入的命令显示出来，看的清楚些
+set showcmd
+" 不要闪烁
+set novisualbell
+" 启动显示状态行(1),总是显示状态行(2)
+set laststatus=2
+" 打开状态栏标尺
+set ruler
 " 设置当文件被改动时自动载入
 set autoread
-" quickfix模式
-autocmd FileType c,cpp map <buffer> <leader><space> :w<cr>:make<cr>
-"代码补全
+" 代码补全
 set completeopt=longest,menu
-"共享剪贴板
+" 共享剪贴板
 set clipboard+=unnamed
-"从不备份
+" 从不备份
 set nobackup
-"make 运行
-:set makeprg=g++\ -Wall\ \ %
 "自动保存
 set autowrite
-set ruler                   " 打开状态栏标尺
-set guioptions-=T           " 隐藏工具栏
-set guioptions-=m           " 隐藏菜单栏
 " 去掉输入错误的提示声音
 set noeb
 " 在处理未保存或只读文件的时候，弹出确认
 set confirm
-" 自动缩进
-"set autoindent
+" C代码里需要的缩排
 set cindent
 " Tab键的宽度
 set tabstop=4
@@ -84,12 +84,8 @@ set hlsearch
 set incsearch
 "行内替换
 set gdefault
-"编码设置
-set enc=utf-8
-"语言设置
-set langmenu=zh_CN.UTF-8
 " 命令行（在状态行下）的高度，默认为1，这里是2
-set cmdheight=2
+set cmdheight=1
 " 保存全局变量
 set viminfo+=!
 " 带有如下符号的单词不要被换行分割
@@ -101,54 +97,121 @@ set wildmenu
 set wildmode=list:longest
 " 使回格键（backspace）正常处理indent, eol, start等
 set backspace=2
-" 允许backspace和光标键跨越行边界
-set whichwrap+=<,>,h,l
-" 可以在buffer的任何地方使用鼠标（类似office中在工作区双击鼠标定位）
-set mouse=a
-set selection=exclusive
-set selectmode=mouse,key
+" 允许backspace和光标键跨越行边界(不建议)
+" set whichwrap+=<,>,h,l
+" 禁止使用鼠标
+set mouse=
 " 通过使用: commands命令，告诉我们文件的哪一行被改变过
 set report=0
 " 在被分割的窗口间显示空白，便于阅读
-set fillchars=vert:\ ,stl:\ ,stlnc:\
+"set fillchars=vert:\ ,stl:\ ,stlnc:\
 " 高亮显示匹配的括号
 set showmatch
 " 匹配括号高亮的时间（单位是十分之一秒）
 set matchtime=1
 " 光标移动到buffer的顶部和底部时保持3行距离
 set scrolloff=3
-" 为C程序提供自动缩进
-set smartindent
 " 高亮显示普通txt文件（需要txt.vim脚本）
 au BufRead,BufNewFile *  setfiletype txt
+" 进入插入模式用浅色高亮当前行
+autocmd InsertEnter * se cul
+" 离开插入模式退出浅色高亮当前行
+autocmd InsertLeave * se nocul
 
-if has('mouse')
-	set mouse-=a
-endif
+" mapleader default '\'
+nmap <leader>w :w!<cr>
+nmap <leader>f :find<cr>
+" 映射全选+复制 ctrl+a
+map <C-A> ggVGY
+map! <C-A> <Esc>ggVGY
+map <F12> gg=G
+" 选中状态下 Ctrl+c 复制
+vmap <C-c> "+y
+"去空行
+nnoremap <C-F2> :g/^\s*$/d<CR>
+"比较文件
+nnoremap <F2> :vert diffsplit
+"新建标签
+map <M-F2> :tabnew<CR>
+"列出当前目录文件
+map <F3> :tabnew .<CR>
+"打开树状文件目录
+map <C-F3> \be
+"C，C++ 按F5编译运行
+map <F5> :call CompileRunGcc()<CR>
+func! CompileRunGcc()
+	exec "w"
+	if &filetype == 'c'
+		exec "!g++ % -o %<"
+		exec "! ./%<"
+	elseif &filetype == 'cpp'
+		exec "!g++ % -o %<"
+		exec "! ./%<"
+	elseif &filetype == 'java'
+		exec "!javac %"
+		exec "!java %<"
+	elseif &filetype == 'sh'
+		:!./%
+	endif
+endfunc
+"C,C++的调试
+map <F8> :call Rungdb()<CR>
+func! Rungdb()
+	exec "w"
+	exec "!g++ % -g -o %<"
+	exec "!gdb ./%<"
+endfunc
 
 " Autocomplete window goes away when you’re done with it
 let g:ycm_autoclose_preview_window_after_completion=1
 let g:ycm_server_python_interpreter='/usr/bin/python'
 let g:ycm_global_ycm_extra_conf='~/.vim/bundle/YouCompleteMe/third_party/ycmd/examples/.ycm_extra_conf.py'
+
 let g:ctrlp_working_path_mode = 0
 
-" 使用powerline打过补丁的字体
-let g:airline_powerline_fonts = 0
+let g:airline_powerline_fonts = 1
 if !exists('g:airline_symbols')
-	let g:airline_symbols={}
-endif
+    let g:airline_symbols = {}
+  endif
 
+" unicode symbols
+let g:airline_left_sep = '»'
+let g:airline_left_sep = '▶'
+let g:airline_right_sep = '«'
+let g:airline_right_sep = '◀'
+let g:airline_symbols.crypt = '🔒'
+let g:airline_symbols.linenr = '☰'
+let g:airline_symbols.linenr = '␊'
+let g:airline_symbols.linenr = '␤'
+let g:airline_symbols.linenr = '¶'
+let g:airline_symbols.maxlinenr = ''
+let g:airline_symbols.maxlinenr = '㏑'
+let g:airline_symbols.branch = '⎇'
+let g:airline_symbols.paste = 'ρ'
+let g:airline_symbols.paste = 'Þ'
+let g:airline_symbols.paste = '∥'
+let g:airline_symbols.spell = 'Ꞩ'
+let g:airline_symbols.notexists = '∄'
+let g:airline_symbols.whitespace = 'Ξ'
+
+" Tab键切换buffer
+nmap <tab> :bn<CR>
+" 支持tagbar状态栏
+let g:airline#extensions#tagbar#enabled = 1
 " 关闭空白符检测
 let g:airline#extensions#whitespace#enabled=0
 " 开启tabline
 let g:airline#extensions#tabline#enabled=1
 " tabline中当前buffer两端的分隔字符
-let g:airline#extensions#tabline#left_sep=' '
+let g:airline#extensions#tabline#left_sep=''
 " tabline中未激活buffer两端的分隔字符
 let g:airline#extensions#tabline#left_alt_sep='|'
 " tabline中buffer显示编号
 let g:airline#extensions#tabline#buffer_nr_show=1
+" 设置airline风格
 let g:airline_theme='solarized'
+" 设置airline状态栏Z段，行号:列号 占总行百分比 光标字符十六进制 总行数
+let g:airline_section_z = 'Hex:%B Col:%v Ln:%l/%L %3p%%'
 
 map  / <Plug>(easymotion-sn)
 omap / <Plug>(easymotion-tn)
@@ -157,37 +220,13 @@ map  N <Plug>(easymotion-prev)
 map <Leader>j <Plug>(easymotion-j)
 map <Leader>k <Plug>(easymotion-k)
 
-let g:AutoOpenWinManager = 0 "开启Vim时自动打开为1
-let g:winManagerWindowLayout = 'NERDTree|Tagbar'
-nmap wm :WMToggle<CR>
-nmap <silent> <F7> :WMToggle<cr>
-
-let g:NERDTree_title="[NERDTree]"
-
-function! NERDTree_Start()
-	exec 'q'
-	exec 'NERDTree'
-endfunction
-
-function! NERDTree_IsValid()
-	return 1
-endfunction
-
-let g:Tagbar_title = "[Tagbar]"
-function! Tagbar_Start()
-	exec 'q'
-	exec 'TagbarOpen'
-endfunction
-
-function! Tagbar_IsValid()
-	return 1
-endfunction
-
-let g:tagbar_width = 30
-let g:tagbar_right = 1
-
-" 含有NerdTree时候多窗口一起退出
-autocmd VimEnter * if (winnr("$") >= 2) | NERDTreeToggle | q! | 2wincmd w | endif
+" ctags程序的路径
+let g:tagbar_ctags_bin='ctags'
+" 窗口宽度的设置
+let g:tagbar_width=30
+" 窗口在右侧
+let g:tagbar_right=1
+map <F6> :Tagbar<cr>
 
 nmap <C-\>a :cs add cscope.out<cr>
 nmap <C-\>r :cs reset<cr>
