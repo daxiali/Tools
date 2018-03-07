@@ -128,17 +128,17 @@ map! <C-A> <Esc>ggVGY
 map <F12> gg=G
 " 选中状态下 Ctrl+c 复制
 vmap <C-c> "+y
-"去空行
+" 去空行
 nnoremap <C-F2> :g/^\s*$/d<CR>
-"比较文件
+" 比较文件
 nnoremap <F2> :vert diffsplit
-"新建标签
+" 新建标签
 map <M-F2> :tabnew<CR>
-"列出当前目录文件
+" 列出当前目录文件
 map <F3> :tabnew .<CR>
-"打开树状文件目录
+" 打开树状文件目录
 map <C-F3> \be
-"C，C++ 按F5编译运行
+" C，C++ 按F5编译运行
 map <F5> :call CompileRunGcc()<CR>
 func! CompileRunGcc()
 	exec "w"
@@ -155,26 +155,55 @@ func! CompileRunGcc()
 		:!./%
 	endif
 endfunc
-"C,C++的调试
+" C,C++的调试
 map <F8> :call Rungdb()<CR>
 func! Rungdb()
 	exec "w"
 	exec "!g++ % -g -o %<"
 	exec "!gdb ./%<"
 endfunc
+" mark操作, :ma+字母
+" 跳到某个mark操作， '+字母
+" vimgrep /匹配模式/[g][j] 要搜索的文件/范围
+"         g：表示是否把每一行的多个匹配结果都加入
+"         j：表示是否搜索完后定位到第一个匹配位置
+" vimgrep /pattern/ % 在当前打开文件中查找
+" vimgrep /pattern/ * 在当前目录下查找所有
+" vimgrep /pattern/ ** 在当前目录及子目录下查找所有
+" vimgrep /pattern/ *.c 查找当前目录下所有.c文件
+" vimgrep /pattern/ **/* 只查找子目录
+" 文本转换成16进制 命令：%!xxd
+" 十六进制返回成文本 命令：%!xxd -r
 
-" Autocomplete window goes away when you’re done with it
+" 设置YouCompleteMe
 let g:ycm_autoclose_preview_window_after_completion=1
 let g:ycm_server_python_interpreter='/usr/bin/python'
 let g:ycm_global_ycm_extra_conf='~/.vim/bundle/YouCompleteMe/third_party/ycmd/examples/.ycm_extra_conf.py'
 
+" 设置为正则表达式搜索
+let g:ctrlp_regexp = 1
+" 退出不删除cache
+let g:ctrlp_clear_cache_on_exit = 0
+" 关闭工作路径功能
 let g:ctrlp_working_path_mode = 0
+" 设置搜索结果最大值
+let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:10,results:100'
+" 没有文件数量限制
+let g:ctrlp_max_files = 0
+" 定制忽略的文件
+let g:ctrlp_custom_ignore = {
+    \ 'dir':  '\v[\/]\.(git|hg|svn)$',
+    \ 'file': '\v\.(exe|so|dll)$',
+    \ 'link': 'SOME_BAD_SYMBOLIC_LINKS',
+    \ }
 
+
+" utf-8的格式
 let g:airline_powerline_fonts = 1
 if !exists('g:airline_symbols')
     let g:airline_symbols = {}
 endif
-" unicode symbols
+" 特定分界符设定为空
 let g:airline_left_alt_sep = ''
 let g:airline_left_sep = ''
 let g:airline_right_alt_sep = ''
@@ -188,7 +217,6 @@ let g:airline_symbols.paste = ''
 let g:airline_symbols.spell = ''
 let g:airline_symbols.notexists = ''
 let g:airline_symbols.whitespace = ''
-
 
 " Tab键切换buffer
 nmap <tab> :bn<CR>
@@ -204,6 +232,8 @@ let g:airline#extensions#tabline#left_sep=''
 let g:airline#extensions#tabline#left_alt_sep='|'
 " tabline中buffer显示编号
 let g:airline#extensions#tabline#buffer_nr_show=1
+" tabline中文件名显示格式
+let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
 " 设置airline风格
 let g:airline_theme='solarized'
 " 设置airline状态栏Z段
@@ -227,6 +257,7 @@ let g:tagbar_width=30
 let g:tagbar_right=1
 map <F6> :Tagbar<cr>
 
+" 设置cscope快捷键
 nmap <C-\>a :cs add cscope.out<cr>
 nmap <C-\>r :cs reset<cr>
 nmap <C-\>s :cs find s <C-R>=expand("<cword>")<cr><cr>
@@ -238,6 +269,7 @@ nmap <C-\>f :cs find f <C-R>=expand("<cfile>")<cr><cr>
 nmap <C-\>i :cs find i <C-R>=expand("<cfile>")<cr><cr>
 nmap <C-\>d :cs find d <C-R>=expand("<cword>")<cr><cr>
 
+" 设置python_mode格式和快捷键
 let g:pymode_python = 'python3'
 let g:pymode_folding = 0
 let g:pymode_rope_goto_definition_bind = '<C-]>'
@@ -258,12 +290,14 @@ let g:pymode_rope_change_signature_bind = '<leader>rs'
 let g:pymode_rope_autoimport = 1
 let g:pymode_options_max_line_length = 119
 
+" 设置主题
 set t_Co=256
 set background=dark
 let g:solarized_termcolors=256
 let g:solarized_contrast="high"
 colorscheme solarized
 
+" 解决tmux中vim背景刷新问题
 if &term =~ '256color'
 	" disable Background Color Erase (BCE) so that color schemes
 	" render properly when inside 256-color tmux and GNU screen.
