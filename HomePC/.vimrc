@@ -64,10 +64,10 @@ set confirm
 " C代码里需要的缩排
 set cindent
 " Tab键的宽度
-set tabstop=4
+set tabstop=8
 " 统一缩进为4
-set softtabstop=4
-set shiftwidth=4
+set softtabstop=8
+set shiftwidth=8
 " 不要用空格代替制表符
 set noexpandtab
 " 在行和段开始处使用制表符
@@ -304,3 +304,12 @@ if &term =~ '256color'
 	" see also http://snk.tuxfamily.org/log/vim-256color-bce.html
 	set t_ut=
 endif
+
+func! FormatCode()
+	exec "w"
+	if &filetype == 'c' || &filetype == 'h'
+		exec "!astyle --style=linux --indent=tab=8 --suffix=none %"
+	endif
+endfunc
+
+command! -range=% FormatCode call <SID>FormatCode()
