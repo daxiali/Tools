@@ -311,3 +311,5 @@ func! FormatCode()
 endfunc
 
 command! -range=% FormatCode call <SID>FormatCode()
+
+autocmd FileType python setlocal et sta sw=4 sts=4
